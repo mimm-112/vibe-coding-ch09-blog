@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: 'DevBlog 로그인 및 회원가입',
 }
 
+// 로그인 여부에 따라 화면이 달라지므로 절대 정적으로 만들면 안 됩니다.
+export const dynamic = 'force-dynamic'
+
 export default async function AuthPage({
   searchParams,
 }: {
