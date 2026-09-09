@@ -6,7 +6,17 @@ import { getSupabaseEnv } from './env'
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
-  const { url: supabaseUrl, anonKey } = getSupabaseEnv()
+  // proxy는 페이지 렌더링보다 먼저 실행됩니다.
+  // 여기서 예외를 던지면 앱이 통째로 500을 내면서 원인도 보이지 않으므로,
+  // 환경 변수가 없으면 세션 갱신을 건너뛰고 페이지가 뜨게 둡니다.
+  // (그러면 app/error.tsx 가 무엇을 설정해야 하는지 알려줍니다.)
+  let supabaseUrl: string
+  let anonKey: string
+  try {
+    ;({ url: supabaseUrl, anonKey } = getSupabaseEnv())
+  } catch {
+    return supabaseResponse
+  }
 
   const supabase = createServerClient(supabaseUrl, anonKey, {
     cookies: {
