@@ -22,3 +22,12 @@ export function getSupabaseEnv() {
 
   return { url, anonKey }
 }
+
+/** 수파베이스 환경 변수가 설정되어 있는지 확인합니다. (오류를 던지지 않습니다) */
+export function hasSupabaseEnv() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ??
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+  )
+}

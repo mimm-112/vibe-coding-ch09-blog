@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import CategoryFilter from '@/components/CategoryFilter'
+import SetupNotice from '@/components/SetupNotice'
 import Pagination from '@/components/Pagination'
 import PostList from '@/components/PostList'
 import { getCategories, getPosts } from '@/lib/posts'
 import { POSTS_PER_PAGE } from '@/types/blog'
+import { hasSupabaseEnv } from '@/utils/supabase/env'
 
 export const metadata: Metadata = {
   title: 'DevBlog — 개발자 블로그',
@@ -18,6 +20,9 @@ export default async function Home({
 }: {
   searchParams: Promise<{ category?: string; q?: string; page?: string }>
 }) {
+  // 키가 없으면 오류를 던지는 대신 무엇을 해야 하는지 보여줍니다.
+  if (!hasSupabaseEnv()) return <SetupNotice />
+
   const { category, q, page } = await searchParams
   const currentPage = Math.max(1, Number(page ?? '1') || 1)
 
