@@ -115,6 +115,34 @@ proxy.ts                   Next 16의 미들웨어 (구 middleware.ts)
 그래서 클라이언트에서 접근할 때는 RLS 정책으로 조회 범위를 반드시 제한해야 합니다.
 RLS도 완전한 보안은 아니므로, 민감한 로직은 서버에 두는 편이 안전합니다.
 
+## 배포 (Vercel)
+
+이미 배포되어 있습니다 → **https://vibe-coding-ch09-blog.vercel.app**
+
+배포된 사이트도 로컬과 **똑같은 환경 변수**가 있어야 동작합니다.
+키를 채팅이나 커밋에 노출하지 않고 올리는 방법은 두 가지입니다.
+
+### 방법 1 — 스크립트로 한 번에 (권장)
+
+로컬 `.env.local` 값을 그대로 Vercel에 올립니다. 값이 화면에 출력되지 않습니다.
+
+```bash
+./scripts/push-env.sh
+npx vercel --prod        # 재배포해야 반영됩니다
+```
+
+### 방법 2 — Vercel 대시보드에서 직접 입력
+
+<https://vercel.com/yooo18/vibe-coding-ch09-blog/settings/environment-variables>
+
+`.env.local.example` 에 적힌 키를 하나씩 추가한 뒤 **Redeploy** 를 누르면 됩니다.
+
+### 깃허브 연동 (선택)
+
+지금은 CLI로 업로드한 상태라 `git push` 해도 자동 배포되지 않습니다.
+[Vercel GitHub 앱](https://github.com/apps/vercel)을 설치하고 프로젝트 설정에서
+저장소를 연결하면, 이후로는 푸시할 때마다 자동 배포됩니다.
+
 ## 자주 만나는 오류
 
 | 오류 메시지 | 원인과 해결 |
